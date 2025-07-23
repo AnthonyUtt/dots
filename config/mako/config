@@ -1,0 +1,17 @@
+anchor=top-center
+background-color=#FFFFFFCC
+border-color=
+border-radius=5
+border-size=0
+default-timeout=5000
+height=200
+ignore-timeout=true
+layer=overlay
+margin=10
+max-icon-size=128
+on-button-left=dismiss
+on-button-right=invoke-default-action
+padding=15
+sort=-time
+text-color=#778691FF
+width=500

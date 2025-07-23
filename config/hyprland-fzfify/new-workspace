@@ -1,0 +1,25 @@
+#!/bin/sh
+SCRIPTNAME=$(basename $0)
+SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
+# when we re-enter this script this env var will
+# be set.
+if [[ -n $SR ]]; then
+    echo ""
+    echo " New workspace: "
+    echo ""
+    echo -n " > "
+    read newname
+    hyprctl dispatch workspace name:$newname
+fi
+
+# launch kitty instance with the size we want
+# and re-enter this script.
+SR=true sh -c "kitty \
+    -o remember_window_size=no \
+    -o initial_window_width=450 \
+    -o initial_window_height=150 \
+    -o font_size=16.0 \
+    -o window_padding_width=20 \
+    --title \"hyprland-fzfify\" \
+    -e $SCRIPTPATH/$SCRIPTNAME"&

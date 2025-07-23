@@ -1,0 +1,36 @@
+show_startup_tips false
+theme "everforest-light"
+themes {
+	bamboo {
+		bg "#252623"
+		black "#5B5E5A"
+		blue "#57A5E5"
+		cyan "#70C2BE"
+		fg "#F1E9D2"
+		green "#8FB573"
+		magenta "#DF73FF"
+		orange "#FF9966"
+		red "#E75A7C"
+		white "#FFF8F0"
+		yellow "#DBB651"
+	}
+	everforest-light {
+		bg "#FDF6E3"
+		black "#5C6A72"
+		blue "#3A94C5"
+		cyan "#35A77C"
+		fg "#5C6A72"
+		green "#8DA101"
+		magenta "#DF69BA"
+		orange "#FF9966"
+		red "#F85552"
+		white "#E0DCC7"
+		yellow "#DFA000"
+	}
+}
+ui {
+	pane_frames {
+		hide_session_name false
+		rounded_corners true
+	}
+}
