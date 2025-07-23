@@ -59,20 +59,23 @@ echo "✅  scripts installed successfully!"
 echo "⇒ Copying other configuration files…"
 # Backup existing files before overwriting
 [[ -f "$HOME/.zshrc" ]] && cp "$HOME/.zshrc" "$HOME/.zshrc.backup"
-[[ -f "$HOME/.ssh/config" ]] && cp "$HOME/.ssh/config" "$HOME/.ssh/config.backup"
-
-mkdir -p "$HOME/.ssh"
 cp "$script_dir/.zshrc" "$HOME/.zshrc"
+
+[[ -f "$HOME/.ssh/config" ]] && cp "$HOME/.ssh/config" "$HOME/.ssh/config.backup"
+mkdir -p "$HOME/.ssh"
 cp "$script_dir/ssh/config" "$HOME/.ssh/config"
 chmod 600 "$HOME/.ssh/config"  # Ensure SSH config has correct permissions
+
+sudo mkdir -p /etc/greetd
+sudo cp "$script_dir/other/greetd.conf" /etc/greetd/greetd.conf
 echo "✅  config files installed successfully!"
 
 packages=(
   bat brightnessctl btop cliphist curl dbeaver direnv
   discord dolphin eza fd firefox-developer-edition fzf gamemode gamescope gcc gimp
-  git grimblast hyprland-meta-git inkscape jq kitty
+  git greetd grimblast hyprland-meta-git inkscape jq kitty
   libation-bin make mako mangohud neofetch neovim-nightly-bin
-  nvtop opendoas openssh pipewire playerctl prusa-slicer qt5-wayland qt6-wayland
+  nvtop nwg-hello opendoas openssh pipewire playerctl prusa-slicer qt5-wayland qt6-wayland
   remmina ripgrep rustup silicon slack-desktop
   spotify swaybg swayidle swaylock thunderbird unzip vim vlc vulkan-tools
   waybar wf-recorder wget wine wireplumber wl-clipboard
@@ -84,5 +87,8 @@ yay -S --needed --noconfirm \
   --answerdiff None \
   --answerclean All \
   "${packages[@]}"
+
+echo "⇒ Enabling services…"
+sudo systemctl enable greetd.service
 
 echo "✅  All done!"
