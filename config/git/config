@@ -1,0 +1,6 @@
+[init]
+	defaultBranch = "main"
+
+[user]
+	email = "anthony@anthonyutt.dev"
+	name = "AnthonyUtt"

@@ -1,0 +1,40 @@
+#! /usr/bin/env bash
+
+set -x
+
+# CONSTANTS
+cwd="$(pwd)"
+config="$HOME/.config"
+
+# Copy configuration files into $config
+echo "Installing dotfiles from $cwd..."
+for dir in "$cwd/config/"*; do
+    if [[ -d "$dir" ]]; then
+        echo "Copying configuration from $dir to $config"
+        target_dir="$config/$(basename "$dir")"
+        mkdir -p "$target_dir"
+        cp -r "$dir/"* "$target_dir/"
+    fi
+done
+echo "Installing dotfiles from $cwd...\033[32mDONE\033[0m]"
+
+# Copy scripts to $HOME/.local/bin
+echo "Copying scripts to $HOME/.local/bin..."
+mkdir -p "$HOME/.local/bin"
+for script in "$cwd/scripts/"*; do
+    if [[ -f "$script" ]]; then
+        cp "$script" "$HOME/.local/bin/$(basename "$script")"
+    fi
+done
+echo "Copying scripts to $HOME/.local/bin...\033[32mDONE\033[0m]"
+
+# Copy other configuration files
+echo "Copying other configuration files..."
+# Backup existing files before overwriting
+[[ -f "$HOME/.zshrc" ]] && cp "$HOME/.zshrc" "$HOME/.zshrc.backup"
+[[ -f "$HOME/.ssh/config" ]] && cp "$HOME/.ssh/config" "$HOME/.ssh/config.backup"
+
+mkdir -p "$HOME/.ssh"
+cp "$cwd/.zshrc" "$HOME/.zshrc"
+cp "$cwd/ssh/config" "$HOME/.ssh/config"
+echo "Copying other configuration files...\033[32mDONE\033[0m]"
