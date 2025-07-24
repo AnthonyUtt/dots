@@ -41,7 +41,6 @@ else
   echo "✅  yay installed successfully!"
 fi
 
-
 # Copy configuration files into $config
 echo "⇒ Installing dotfiles from $script_dir…"
 mkdir -p "$HOME/.config"
@@ -70,25 +69,73 @@ sudo mkdir -p /etc/greetd
 sudo cp "$script_dir/other/greetd.conf" /etc/greetd/greetd.conf
 echo "✅  config files installed successfully!"
 
-packages=(
-  bat brightnessctl btop cliphist curl dbeaver direnv
-  discord dolphin eza fd firefox-developer-edition fzf gamemode gamescope gcc gimp
-  git greetd grimblast hyprland-meta-git inkscape jq kitty
-  libation-bin make mako mangohud neofetch neovim-nightly-bin
-  nvtop nwg-hello opendoas openssh pipewire playerctl prusa-slicer qt5-wayland qt6-wayland
-  remmina ripgrep rustup silicon slack-desktop
-  spotify swaybg swayidle swaylock thunderbird unzip vim vlc vulkan-tools
-  waybar wf-recorder wget wine wireplumber wl-clipboard
-  wl-mirror wofi vencord zellij zip zoxide zsh
+cli_tools=(
+  bat btop curl direnv eza fd fzf jq neofetch neovim-nightly-bin
+  nvtop ripgrep unzip vim wget wine zellij zip zoxide zsh
+)
+desktop_apps=(
+  dbeaver discord dolphin firefox-developer-edition gimp inkscape kitty
+  libation-bin prusa-slicer remmina slack-desktop spotify thunderbird vlc vencord
+)
+desktop_environment=(
+  brightnessctl cliphist greetd hyprland-meta-git mako nwg-drawer nwg-hello pipewire
+  playerctl qt5-wayland qt6-wayland swaybg swayidle swaylock waybar wf-recorder
+  wireplumber wl-clipboard wl-mirror walker-bin
+)
+fonts=(
+  ttf-jetbrains-mono-nerd
+  otf-departure-mono
+)
+gaming=(
+  gamemode gamescope mangohud nvtop steam vulkan-tools
+)
+graphics=(
+  nvidia-open-dkms nvidia-utils nvidia-settings
+  lib32-nvidia-utils egl-wayland libva-nvidia-driver
+)
+system_utilities=(
+  gcc git linux-zen-headers make openssh rustup silicon
+  opendoas openssh
 )
 
 echo "⇒ Installing packages with yay…"
 yay -S --needed --noconfirm \
   --answerdiff None \
   --answerclean All \
-  "${packages[@]}"
+  "${cli_tools[@]}" \
+  "${desktop_apps[@]}" \
+  "${desktop_environment[@]}" \
+  "${fonts[@]}" \
+  "${gaming[@]}" \
+  "${graphics[@]}" \
+  "${system_utilities[@]}"
 
 echo "⇒ Enabling services…"
 sudo systemctl enable greetd.service
+
+# Enable zsh as the default shell
+if [[ "$SHELL" != "$(which zsh)" ]]; then
+  echo "⇒ Changing default shell to zsh…"
+  chsh -s "$(which zsh)"
+else
+  echo "✅  zsh is already the default shell."
+fi
+
+echo "⇒ Configuring nvidia drivers…"
+echo "options nvidia_drm modeset=1" | sudo tee /etc/modprobe.d/nvidia-drm.conf > /dev/null
+sudo sed -i '/^MODULES=/ s/)/nvidia nvidia_modeset nvidia_uvm nvidia_drm)/g' /etc/mkinitcpio.conf
+sudo mkinitcpio -P
+
+# echo "⇒ Updating font cache…"
+# fc-cache -fv
+#
+# echo "⇒ Updating icon cache…"
+# gtk-update-icon-cache -f /usr/share/icons/hicolor
+#
+# echo "⇒ Updating desktop database…"
+# update-desktop-database -q
+
+echo "⇒ Cleaning up…"
+yay -Rns --noconfirm "$(yay -Qdtq)"  # Remove unused dependencies
 
 echo "✅  All done!"
