@@ -80,7 +80,11 @@ desktop_apps=(
 desktop_environment=(
   brightnessctl cliphist greetd hyprland-meta-git mako nwg-drawer nwg-hello pipewire
   playerctl qt5-wayland qt6-wayland swaybg swayidle swaylock waybar wf-recorder
-  wireplumber wl-clipboard wl-mirror walker-bin
+  wireplumber wl-clipboard wl-mirror walker-bin pipewire-pulse pwvucontrol
+  rose-pine-hyprcursor
+)
+dev_tools=(
+  docker docker-compose
 )
 fonts=(
   ttf-jetbrains-mono-nerd
