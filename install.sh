@@ -41,10 +41,10 @@ else
   echo "✅  yay installed successfully!"
 fi
 
-# Copy configuration files into $config
+# Link configuration files into $config
 echo "⇒ Installing dotfiles from $script_dir…"
 mkdir -p "$HOME/.config"
-rsync -a "$script_dir/config/" "$HOME/.config/"
+ln -s "$script_dir/config" "$HOME/.config"
 echo "✅  dotfiles installed successfully!"
 
 # Copy scripts to $HOME/.local/bin
@@ -54,19 +54,12 @@ rsync -a "$script_dir/scripts/" "$HOME/.local/bin/"
 chmod +x "$HOME/.local/bin/"*  # Make scripts executable
 echo "✅  scripts installed successfully!"
 
-# Copy other configuration files
-echo "⇒ Copying other configuration files…"
-# Backup existing files before overwriting
-[[ -f "$HOME/.zshrc" ]] && cp "$HOME/.zshrc" "$HOME/.zshrc.backup"
-cp "$script_dir/.zshrc" "$HOME/.zshrc"
-
-[[ -f "$HOME/.ssh/config" ]] && cp "$HOME/.ssh/config" "$HOME/.ssh/config.backup"
-mkdir -p "$HOME/.ssh"
-cp "$script_dir/ssh/config" "$HOME/.ssh/config"
-chmod 600 "$HOME/.ssh/config"  # Ensure SSH config has correct permissions
+echo "⇒ Installing other configuration files…"
+ln -s "$script_dir/.zshrc" "$HOME/.zshrc"
+ln -s "$script_dir/ssh/config" "$HOME/.ssh/config"
 
 sudo mkdir -p /etc/greetd
-sudo cp "$script_dir/other/greetd.conf" /etc/greetd/greetd.conf
+sudo ln -s "$script_dir/other/greetd.conf" /etc/greetd/greetd.conf
 echo "✅  config files installed successfully!"
 
 cli_tools=(
@@ -74,14 +67,14 @@ cli_tools=(
   nvtop ripgrep unzip vim wget wine zellij zip zoxide zsh
 )
 desktop_apps=(
-  dbeaver discord dolphin firefox-developer-edition gimp inkscape kitty
-  libation-bin prusa-slicer remmina slack-desktop spotify thunderbird vlc vencord
+  dbeaver dolphin firefox-developer-edition gimp inkscape kitty
+  libation-bin prusa-slicer remmina slack-desktop spotify-launcher thunderbird vlc vesktop
 )
 desktop_environment=(
   brightnessctl cliphist greetd hyprland-meta-git mako nwg-drawer nwg-hello pipewire
   playerctl qt5-wayland qt6-wayland swaybg swayidle swaylock waybar wf-recorder
   wireplumber wl-clipboard wl-mirror walker-bin pipewire-pulse pwvucontrol
-  rose-pine-hyprcursor
+  rose-pine-hyprcursor hyprshot
 )
 dev_tools=(
   docker docker-compose
@@ -89,16 +82,20 @@ dev_tools=(
 fonts=(
   ttf-jetbrains-mono-nerd
   otf-departure-mono
+  ttf-font-awesome
+  nerd-fonts
+  noto-fonts-emoji
+  ttf-twemoji
 )
 gaming=(
-  gamemode gamescope mangohud nvtop steam vulkan-tools
+  gamemode gamescope mangohud nvtop steam vulkan-tools libratbag
 )
 graphics=(
   nvidia-open-dkms nvidia-utils nvidia-settings
   lib32-nvidia-utils egl-wayland libva-nvidia-driver
 )
 system_utilities=(
-  gcc git linux-zen-headers make openssh rustup silicon
+  gcc git linux-zen-headers make man-db man-pages openssh rustup silicon
   opendoas openssh
 )
 
@@ -125,19 +122,28 @@ else
   echo "✅  zsh is already the default shell."
 fi
 
-echo "⇒ Configuring nvidia drivers…"
-echo "options nvidia_drm modeset=1" | sudo tee /etc/modprobe.d/nvidia-drm.conf > /dev/null
-sudo sed -i '/^MODULES=/ s/)/nvidia nvidia_modeset nvidia_uvm nvidia_drm)/g' /etc/mkinitcpio.conf
-sudo mkinitcpio -P
+echo "⇒ Checking for nvidia GPU…"
+HAS_NVIDIA="$(lspci | grep NVIDIA &>/dev/null && echo 1 || echo 0)"
 
-# echo "⇒ Updating font cache…"
-# fc-cache -fv
-#
-# echo "⇒ Updating icon cache…"
-# gtk-update-icon-cache -f /usr/share/icons/hicolor
-#
-# echo "⇒ Updating desktop database…"
-# update-desktop-database -q
+if [[ "$HAS_NVIDIA" == "1" ]]; then
+  echo "✅  nvidia GPU found!"
+  echo "⇒ Configuring nvidia drivers…"
+  echo "options nvidia_drm modeset=1" | sudo tee /etc/modprobe.d/nvidia-drm.conf > /dev/null
+  sudo sed -i '/^MODULES=/ s/)/nvidia nvidia_modeset nvidia_uvm nvidia_drm)/g' /etc/mkinitcpio.conf
+  sudo mkinitcpio -P
+fi
+
+echo "⇒ Configuring libratbag for Logitech G502 X LIGHTSPEED…"
+sudo ln -s "$script_dir/other/logitech-g502-x-lightspeed.device" /usr/share/libratbag/logitech-g502-x-lightspeed.device
+
+echo "⇒ Updating font cache…"
+fc-cache -fv
+
+echo "⇒ Updating icon cache…"
+gtk-update-icon-cache -f /usr/share/icons/hicolor
+
+echo "⇒ Updating desktop database…"
+update-desktop-database -q
 
 echo "⇒ Cleaning up…"
 yay -Rns --noconfirm "$(yay -Qdtq)"  # Remove unused dependencies

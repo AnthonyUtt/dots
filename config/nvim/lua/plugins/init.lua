@@ -50,15 +50,16 @@ return {
       },
     },
   },
-  {
-    "ravitemer/mcphub.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    cmd = { "MCPHub" },
-    lazy = false,
-    opts = require "configs.mcphub",
-  },
+  -- {
+  --   "ravitemer/mcphub.nvim",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --   },
+  --   cmd = { "MCPHub" },
+  --   lazy = false,
+  --   build = "bundled_build.lua",
+  --   opts = require "configs.mcphub",
+  -- },
   {
     "yetone/avante.nvim",
     event = "VeryLazy",
@@ -156,7 +157,31 @@ return {
       require("configs.lspconfig").config()
     end,
   },
-  { "williamboman/mason.nvim", enable = false },
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = {
+        "bash-language-server",
+        "css-lsp",
+        "cssmodules-language-server",
+        "docker-compose-language-service",
+        "dockerfile-language-server",
+        "dot-language-server",
+        "emmet-ls",
+        "eslint-lsp",
+        "glsl_analyzer",
+        "html-lsp",
+        "json-lsp",
+        "lua-language-server",
+        "prettier",
+        "ruby-lsp",
+        "rust-analyzer",
+        "sqlls",
+        "tailwindcss-language-server",
+        "typescript-language-server",
+      },
+    },
+  },
   {
     'mrcjkb/rustaceanvim',
     version = '^5', -- Recommended

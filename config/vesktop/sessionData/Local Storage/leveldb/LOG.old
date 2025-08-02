@@ -1,0 +1,18 @@
+2025/08/01-10:20:35.406 781 Reusing MANIFEST /home/anthony/.config/vesktop/sessionData/Local Storage/leveldb/MANIFEST-000001
+2025/08/01-10:20:35.417 781 Recovering log #84
+2025/08/01-10:20:35.418 781 Reusing old log /home/anthony/.config/vesktop/sessionData/Local Storage/leveldb/000084.log 
+2025/08/01-10:40:06.253 781 Level-0 table #88: started
+2025/08/01-10:40:06.256 781 Level-0 table #88: 20413 bytes OK
+2025/08/01-10:40:06.257 781 Delete type=0 #84
+2025/08/01-12:18:47.432 782 Level-0 table #90: started
+2025/08/01-12:18:47.434 782 Level-0 table #90: 28437 bytes OK
+2025/08/01-12:18:47.435 782 Delete type=0 #87
+2025/08/01-12:18:47.435 782 Compacting 4@0 + 1@1 files
+2025/08/01-12:18:47.437 782 Generated table #91@0: 48 keys, 28123 bytes
+2025/08/01-12:18:47.437 782 Compacted 4@0 + 1@1 files => 28123 bytes
+2025/08/01-12:18:47.438 782 compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/08/01-12:18:47.438 782 Delete type=2 #85
+2025/08/01-12:18:47.439 782 Delete type=2 #90
+2025/08/01-12:18:47.439 782 Delete type=2 #88
+2025/08/01-12:18:47.439 782 Delete type=2 #83
+2025/08/01-12:18:47.439 782 Delete type=2 #81

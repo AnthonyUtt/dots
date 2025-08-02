@@ -1,0 +1,6 @@
+2025/08/01-21:44:42.877 a37 Reusing MANIFEST /home/anthony/.config/vesktop/sessionData/Local Storage/leveldb/MANIFEST-000001
+2025/08/01-21:44:42.888 a37 Recovering log #89
+2025/08/01-21:44:42.889 a37 Reusing old log /home/anthony/.config/vesktop/sessionData/Local Storage/leveldb/000089.log 
+2025/08/01-21:46:43.159 a38 Level-0 table #94: started
+2025/08/01-21:46:43.160 a38 Level-0 table #94: 36718 bytes OK
+2025/08/01-21:46:43.161 a38 Delete type=0 #89

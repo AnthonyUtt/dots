@@ -1,6 +1,6 @@
 anchor=top-center
 background-color=#FFFFFFCC
-border-color=
+border-color=#FFFFFFCC
 border-radius=5
 border-size=0
 default-timeout=5000

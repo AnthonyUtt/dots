@@ -45,3 +45,19 @@ Host *
       PreferredAuthentications publickey
       IdentityFile /home/anthony/.ssh/id_rsa
       User anthony
+
+  Host amplify
+      Hostname ssh-app.spaceback.me
+      PreferredAuthentications publickey
+      IdentityFile /home/anthony/.ssh/aws-eb
+      User root
+      StrictHostKeyChecking no
+      UserKnownHostsFile none
+
+  Host amplify-stage
+      Hostname ssh-app-stage.spaceback.me
+      PreferredAuthentications publickey
+      IdentityFile /home/anthony/.ssh/aws-eb
+      User root
+      StrictHostKeyChecking no
+      UserKnownHostsFile none

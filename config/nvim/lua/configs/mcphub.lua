@@ -1,4 +1,5 @@
 return {
+  use_bundled_binary = true,
   auto_approve = true,
   extensions = {
     avante = {
