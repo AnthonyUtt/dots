@@ -60,6 +60,10 @@ ln -s "$script_dir/ssh/config" "$HOME/.ssh/config"
 
 sudo mkdir -p /etc/greetd
 sudo ln -s "$script_dir/other/greetd.conf" /etc/greetd/greetd.conf
+# copy nwg-hello conf bc any changes should be machine-specific
+sudo cp -r "$script_dir/other/nwg-hello" /etc/nwg-hello
+# same for doas
+sudo cp "$script_dir/other/doas.conf" /etc/doas.conf
 echo "✅  config files installed successfully!"
 
 cli_tools=(
